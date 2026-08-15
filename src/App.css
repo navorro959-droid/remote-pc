@@ -1,0 +1,349 @@
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 50%, #020617 100%);
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  
+  /* ГЛОБАЛЬНЫЙ ЗАПРЕТ НА ВЫДЕЛЕНИЕ ЭЛЕМЕНТОВ */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* ИСКЛЮЧЕНИЕ: РАЗРЕШАЕМ ВЫДЕЛЯТЬ И КОПИРОВАТЬ ТЕКСТ В ПОЛЯХ ВВОДА */
+input, textarea {
+  user-select: auto;
+  -webkit-user-select: auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.title {
+  margin-bottom: 15px;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(to right, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+}
+
+.status-bar {
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  margin-bottom: 20px;
+}
+
+/* --- НОВОЕ: ОБЕРТКА И КНОПКИ СБОКУ --- */
+.video-wrapper {
+  position: relative; /* Якорь для кнопок */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.video-controls-side {
+  position: absolute;
+  right: -60px; /* Сдвигаем вправо за пределы видео */
+  top: 0;       /* Прижимаем к верхнему краю */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+/* СТАНДАРТНОЕ ОКНО ДЕМКИ (Компактный размер) */
+.video-panel {
+  position: relative; 
+  width: 800px;       
+  height: 250px;      
+  max-width: calc(95vw - 80px); /* Оставляем место для кнопок сбоку на маленьких экранах */
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
+
+/* РЕЖИМ ШИРОКОГО ЭКРАНА (Театральный) */
+.video-panel.theater {
+  width: calc(95vw - 80px);
+  height: 75vh;
+  max-width: 1600px;
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.screen-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 25px 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.glass-panel h2 {
+  font-size: 15px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* БЛОК КОПИРОВАНИЯ ID */
+.id-container {
+  position: relative;
+  display: inline-block;
+}
+
+.id-box {
+  display: inline-block;
+  font-size: 32px;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 3px;
+  cursor: pointer;
+  
+  /* УБИРАЕМ СИСТЕМНОЕ ВЫДЕЛЕНИЕ И РАМКИ */
+  user-select: none; 
+  -webkit-user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+
+  padding: 10px 25px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.id-box:hover {
+  transform: translateY(-5px) scale(1.03);
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 15px 25px rgba(56, 189, 248, 0.3);
+  color: #ffffff;
+}
+
+/* ВСПЛЫВАЮЩАЯ ПОДСКАЗКА "СКОПИРОВАНО!" */
+.copy-tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #22c55e;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.4);
+  pointer-events: none;
+}
+
+.copy-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: #22c55e transparent transparent transparent;
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+.id-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  outline: none;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  letter-spacing: 2px;
+}
+
+.id-input:focus {
+  border-color: #38bdf8;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+.connect-btn {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+}
+
+.connect-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.6);
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+}
+
+.connect-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 5px 10px rgba(37, 99, 235, 0.4);
+}
+
+.block-warning {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.2);
+}
+
+/* КНОПКА ОТКЛЮЧИТЬСЯ (Появляется при соединении) */
+.disconnect-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px; 
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.disconnect-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(239, 68, 68, 0.6);
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+}
+
+.disconnect-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 5px 10px rgba(239, 68, 68, 0.4);
+}
+
+/* ОВЕРЛЕЙ ДЛЯ СЧЕТЧИКА FPS (В левом верхнем углу видео) */
+.fps-overlay {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #38bdf8;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 10;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  backdrop-filter: blur(5px);
+  pointer-events: none; 
+}
+
+/* СВЕЧЕНИЕ КНОПКИ, КОГДА FPS ВКЛЮЧЕН */
+.control-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+/* ВЕРСИЯ ПРИЛОЖЕНИЯ (В левом нижнем углу) */
+.app-version {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  letter-spacing: 1px;
+  pointer-events: none;
+  font-family: monospace;
+}
