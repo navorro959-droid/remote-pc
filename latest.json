@@ -1,11 +1,11 @@
 {
-  "version": "v0.1.4",
+  "version": "v0.1.5",
   "notes": "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435 \u0441\u0438\u0441\u0442\u0435\u043c\u044b.",
-  "pub_date": "2026-08-15T10:08:35.017941+00:00",
+  "pub_date": "2026-08-15T10:11:20.647616+00:00",
   "platforms": {
     "windows-x86_64": {
       "signature": "",
-      "url": "https://github.com/navorro959-droid/sait/releases/download/v0.1.4/remote-desktop_0.1.4_x64-setup.nsis.zip"
+      "url": "https://github.com/navorro959-droid/remote-pc/releases/download/v0.1.5/remote-desktop_0.1.5_x64-setup.nsis.zip"
     }
   }
 }
